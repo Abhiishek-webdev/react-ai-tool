@@ -3,8 +3,6 @@ import "./App.css";
 import { URL } from "./constants";
 import RecentSearch from "./components/RecentSearch";
 import QuestionAnswer from "./components/QuestionAnswer";
-import VoiceChat from "./VoiceChat";
-import SignUp from "./SignUp";
 function App() {
   const [question, setQuestion] = useState("");
   const [result, setResult] = useState([]);
@@ -84,16 +82,17 @@ function App() {
 
   return (
      <div className={darkMode=='dark'?'dark':'light'}>
-       <SignUp/>
     <div className="grid grid-cols-5 h-screen text-center">
-      <select onChange={(event)=>setDarkMode(event.target.value)} className="fixed text-white bottom-0 p-3">
-        <option className="text-black" value="dark">Dark</option>
-        <option className="text-black" value="light">Light</option>
+      <select onChange={(event)=>setDarkMode(event.target.value)} className={`fixed bottom-1 p-4 ${
+              darkMode === "dark" ? "text-white bg-zinc-800" : "text-black bg-white"
+           }`}>
+         <option  value="dark">Dark</option>
+         <option  value="light">Light</option>
       </select>
 
-      <RecentSearch recentHistory={recentHistory} setRecentHistory={setRecentHistory} setSelectedHistory={setSelectedHistory}/>
+      <RecentSearch recentHistory={recentHistory} setRecentHistory={setRecentHistory} setSelectedHistory={setSelectedHistory} darkMode={darkMode}/>
       <div className="col-span-4 p-10">
-        <h1 className="text-3xl bg-clip-text text-transparent bg-gradient-to-r from-green-700 to-blue-700"
+       <h1 className="text-3xl bg-clip-text text-transparent bg-gradient-to-r from-green-700 to-blue-700"
         >Hello User, Ask me Anything</h1>
         {
           loader?
@@ -129,7 +128,6 @@ function App() {
             placeholder="Ask anything"
           />
           <button onClick={askQuestion}>Ask</button>
-           <VoiceChat onResult={(transcript) => setQuestion(transcript)} />
         </div>
       </div>
     </div>
