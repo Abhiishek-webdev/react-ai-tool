@@ -41,13 +41,13 @@ export default function VoiceChat({ onResult }) {
   };
 
   return (
-    <button
-      onClick={toggleListening}
-      className={`ml-1 px-2 py-1 rounded-full ${
-        listening ? "bg-none" : "bg-none"
-      } text-white pl-2`}
-    >
-      {listening ? "🎤" : "🎙️"}
-    </button>
+     <button
+    onClick={toggleListening}
+    className={`ml-2 flex items-center justify-center w-10 h-10 rounded-full 
+      ${listening ? "bg-red-500 animate-pulse" : "bg-gradient-to-r from-green-600 to-blue-600"} 
+      text-white shadow-md`}
+  >
+    {listening ? "🎤" : "🎙️"}
+  </button>
   );
 }

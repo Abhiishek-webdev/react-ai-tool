@@ -9,7 +9,7 @@ export default function RecentSearch({recentHistory, setRecentHistory, setSelect
 
     return (
         <>
-            <div className="col-span-1 dark:bg-zinc-800 bg-white pt-3">
+            <div className="col-span-1 dark:bg-zinc-800 bg-white p-3 md:pt-5 md:h-screen overflow-y-auto w-full md:w-auto">
                 <h1 className="text-xl dark:text-white text-zinc-800 flex text-center justify-center">
                     <span>Recent History</span>
                     <button onClick={clearHistory} className="cursor-pointer"><svg xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" className={`fill-current ${darkMode === 'dark' ? 'text-white' : 'text-black'}`}>

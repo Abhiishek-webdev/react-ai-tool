@@ -34,7 +34,7 @@ export default function SignUp() {
       {/* 🔹 Modal */}
       {open && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="bg-white dark:bg-zinc-800 p-6 rounded-2xl w-96 shadow-lg relative">
+          <div className="bg-white dark:bg-zinc-800 p-6 rounded-2xl w-[90%] sm:w-96 shadow-lg relative">
             <button
               onClick={() => setOpen(false)}
               className="absolute top-2 right-3 text-xl font-bold text-gray-600 hover:text-red-500"

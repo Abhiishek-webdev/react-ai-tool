@@ -3,6 +3,14 @@ import "./App.css";
 import { URL } from "./constants";
 import RecentSearch from "./components/RecentSearch";
 import QuestionAnswer from "./components/QuestionAnswer";
+<<<<<<< HEAD
+=======
+import SignUp from "./components/SignUp";
+import VoiceChat from "./components/VoiceChat";
+
+
+
+>>>>>>> 145cd5e (Update App.jsx with responsive for mobile)
 function App() {
   const [question, setQuestion] = useState("");
   const [result, setResult] = useState([]);
@@ -10,6 +18,7 @@ function App() {
   const [selectedHistory, setSelectedHistory] = useState('');
   const scrollToAns=useRef();
   const [loader, setLoader] = useState(false);
+ 
 
   const askQuestion = async () => {
 
@@ -82,17 +91,21 @@ function App() {
 
   return (
      <div className={darkMode=='dark'?'dark':'light'}>
+<<<<<<< HEAD
     <div className="grid grid-cols-5 h-screen text-center">
+=======
+      <SignUp/>
+    <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 h-screen text-center">
+>>>>>>> 145cd5e (Update App.jsx with responsive for mobile)
       <select onChange={(event)=>setDarkMode(event.target.value)} className={`fixed bottom-1 p-4 ${
               darkMode === "dark" ? "text-white bg-zinc-800" : "text-black bg-white"
            }`}>
          <option  value="dark">Dark</option>
          <option  value="light">Light</option>
       </select>
-
       <RecentSearch recentHistory={recentHistory} setRecentHistory={setRecentHistory} setSelectedHistory={setSelectedHistory} darkMode={darkMode}/>
-      <div className="col-span-4 p-10">
-       <h1 className="text-3xl bg-clip-text text-transparent bg-gradient-to-r from-green-700 to-blue-700"
+      <div className="col-span-1 md:col-span-3 lg:col-span-4 p-4 md:p-8 lg:p-10">
+       <h1 className="text-xl md:text-2xl lg:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-green-700 to-blue-700"
         >Hello User, Ask me Anything</h1>
         {
           loader?
@@ -116,15 +129,15 @@ function App() {
           </div>
         </div>
         <div
-          className="dark:bg-zinc-800 bg-white w-1/2 p-1 pr-5 dark:text-white text-zinc-800 m-auto rounded-4xl 
-           border border-zinc-700 flex h-14"
+           className="dark:bg-zinc-800 bg-white w-full md:w-3/4 lg:w-1/2 
+            p-1 pr-3 dark:text-white text-zinc-800 mx-auto rounded-3xl border border-zinc-700 flex h-12 md:h-14"
         >
           <input
             type="text"
             value={question}
             onKeyDown={isEnter}
             onChange={(event) => setQuestion(event.target.value)}
-            className="w-full h-full p-3 outline-none"
+            className="w-full h-full p-2 md:p-3 outline-none text-sm md:text-base"
             placeholder="Ask anything"
           />
           <button onClick={askQuestion}>Ask</button>
