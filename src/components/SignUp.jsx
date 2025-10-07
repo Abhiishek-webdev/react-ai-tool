@@ -21,31 +21,42 @@ export default function SignUp() {
 
   return (
     <div>
-      {/* 🔹 Top Right Button */}
+      {/* 🔹 Floating Top-Right Button */}
       <button
         onClick={() => setOpen(true)}
-        className="absolute top-5 right-5 px-5 py-2 rounded-xl 
+        className="fixed top-4 right-4 px-5 py-2 rounded-xl 
         bg-gradient-to-r from-green-600 to-blue-600 
-        text-white font-semibold shadow-lg hover:opacity-90"
+        text-white font-semibold shadow-lg hover:opacity-90 
+        active:scale-95 transition-transform duration-150 z-50
+        text-sm sm:text-base"
       >
         Sign Up
       </button>
 
-      {/* 🔹 Modal */}
+      {/* 🔹 Modal Overlay */}
       {open && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="bg-white dark:bg-zinc-800 p-6 rounded-2xl w-[90%] sm:w-96 shadow-lg relative">
+        <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50 px-4">
+          {/* 🔹 Modal Box */}
+          <div
+            className="bg-white dark:bg-zinc-800 p-6 sm:p-8 rounded-2xl w-full max-w-md 
+            shadow-lg relative animate-fadeIn"
+          >
+            {/* 🔹 Close Button */}
             <button
               onClick={() => setOpen(false)}
-              className="absolute top-2 right-3 text-xl font-bold text-gray-600 hover:text-red-500"
+              className="absolute top-2 right-3 text-xl font-bold 
+              text-gray-600 dark:text-gray-400 hover:text-red-500 transition"
+              aria-label="Close modal"
             >
               ✕
             </button>
 
-            <h2 className="text-2xl font-semibold mb-4 dark:text-white">
+            {/* 🔹 Title */}
+            <h2 className="text-xl sm:text-2xl font-semibold mb-4 text-center dark:text-white">
               Create Account
             </h2>
 
+            {/* 🔹 Signup Form */}
             <form onSubmit={handleSubmit} className="flex flex-col gap-3">
               <input
                 type="text"
@@ -53,7 +64,8 @@ export default function SignUp() {
                 placeholder="Full Name"
                 value={formData.name}
                 onChange={handleChange}
-                className="p-2 border rounded-lg dark:bg-zinc-700 dark:text-white"
+                className="p-2 sm:p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 
+                dark:bg-zinc-700 dark:text-white outline-none transition"
                 required
               />
               <input
@@ -62,7 +74,8 @@ export default function SignUp() {
                 placeholder="Email Address"
                 value={formData.email}
                 onChange={handleChange}
-                className="p-2 border rounded-lg dark:bg-zinc-700 dark:text-white"
+                className="p-2 sm:p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 
+                dark:bg-zinc-700 dark:text-white outline-none transition"
                 required
               />
               <input
@@ -71,12 +84,15 @@ export default function SignUp() {
                 placeholder="Password"
                 value={formData.password}
                 onChange={handleChange}
-                className="p-2 border rounded-lg dark:bg-zinc-700 dark:text-white"
+                className="p-2 sm:p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 
+                dark:bg-zinc-700 dark:text-white outline-none transition"
                 required
               />
               <button
                 type="submit"
-                className="mt-3 px-4 py-2 rounded-lg bg-gradient-to-r from-green-600 to-blue-600 text-white font-semibold hover:opacity-90"
+                className="mt-4 px-4 py-2 sm:py-3 rounded-lg bg-gradient-to-r 
+                from-green-600 to-blue-600 text-white font-semibold hover:opacity-90 
+                active:scale-95 transition-transform duration-150"
               >
                 Sign Up
               </button>
