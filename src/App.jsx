@@ -78,7 +78,7 @@ function App() {
     >
       <SignUp />
 
-      {/* 🟢 Header */}
+      {/* 🟢 Header (mobile only) */}
       <header className="md:hidden flex items-center justify-between p-3 border-b dark:border-zinc-700 bg-white dark:bg-zinc-900">
         <button
           onClick={() => setSidebarOpen(true)}
@@ -100,25 +100,9 @@ function App() {
           </svg>
         </button>
         
-
-        {/* 🌓 Dark mode (mobile) */}
-        <div className="hidden md:block fixed top-20 right-5 z-30">
-         <select
-         onChange={(e) => setDarkMode(e.target.value)}
-         value={darkMode}
-         className={`p-2 rounded-md border text-sm ${
-         darkMode === "dark"
-         ? "text-white bg-zinc-800 border-zinc-700"
-         : "text-black bg-white border-zinc-300"
-       }`}>
-         <option value="dark">Dark</option>
-         <option value="light">Light</option>
-        </select>
-       </div>
-
       </header>
 
-      {/* 🧩 Main layout (grid, fixed height) */}
+      {/* 🧩 Layout */}
       <div className="grid grid-cols-1 md:grid-cols-5 h-[calc(100vh-56px)] md:h-screen">
         {/* Sidebar */}
         <aside
@@ -126,31 +110,54 @@ function App() {
             ${
               sidebarOpen
                 ? "fixed inset-0 w-4/5 max-w-xs md:static"
-                : "hidden md:block"
-            }`}
+                : "hidden md:flex"
+            } flex-col justify-between`}
         >
-          <div className="h-full p-3 md:pt-5 md:h-screen overflow-y-auto scrollbar-hide">
-            <div className="flex items-center justify-between md:hidden mb-2">
-              <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
-                Recent
-              </h2>
-              <button
-                onClick={() => setSidebarOpen(false)}
-                className="px-2 py-1 rounded"
-              >
-                ✕
-              </button>
+          {/* 🔹 Sidebar content wrapper */}
+          <div className="relative h-full flex flex-col justify-between p-3 md:pt-5 overflow-y-auto scrollbar-hide">
+            {/* 🔹 Top - Recent History */}
+            <div>
+              <div className="flex items-center justify-between md:hidden mb-2">
+                <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
+                  Recent
+                </h2>
+                <button
+                  onClick={() => setSidebarOpen(false)}
+                  className="px-2 py-1 rounded"
+                >
+                  ✕
+                </button>
+              </div>
+
+              <RecentSearch
+                recentHistory={recentHistory}
+                setRecentHistory={setRecentHistory}
+                setSelectedHistory={(h) => {
+                  setSelectedHistory(h);
+                  setSidebarOpen(false);
+                }}
+                darkMode={darkMode}
+              />
             </div>
 
-            <RecentSearch
-              recentHistory={recentHistory}
-              setRecentHistory={setRecentHistory}
-              setSelectedHistory={(h) => {
-                setSelectedHistory(h);
-                setSidebarOpen(false);
-              }}
-              darkMode={darkMode}
-            />
+            {/* 🔹 Bottom - Dark/Light Toggle (fixed inside sidebar bottom) */}
+            <div className="absolute bottom-10 left-0 w-full px-3">
+              <label className="block text-sm font-medium mb-1 dark:text-zinc-300 text-zinc-700">
+                Theme Mode
+              </label>
+              <select
+                onChange={(e) => setDarkMode(e.target.value)}
+                value={darkMode}
+                className={`p-2 rounded-md border w-full text-sm ${
+                  darkMode === "dark"
+                    ? "text-white bg-zinc-800 border-zinc-700"
+                    : "text-black bg-white border-zinc-300"
+                }`}
+              >
+                <option value="dark">Dark</option>
+                <option value="light">Light</option>
+              </select>
+            </div>
           </div>
         </aside>
 
@@ -164,70 +171,52 @@ function App() {
 
         {/* Main content */}
         <main className="md:col-span-4 flex flex-col items-center p-4 md:p-10 text-center h-full overflow-hidden">
-  
-  {/* Desktop Dark mode selector */}
-  <div className="hidden md:block fixed top-4 right-4 z-30">
-    <select
-      onChange={(e) => setDarkMode(e.target.value)}
-      value={darkMode}
-      className={`p-2 rounded-md border text-sm ${
-        darkMode === "dark"
-          ? "text-white bg-zinc-800 border-zinc-700"
-          : "text-black bg-white border-zinc-300"
-      }`}
-    >
-      <option value="dark">Dark</option>
-      <option value="light">Light</option>
-    </select>
-  </div>
+          {/* Heading */}
+          <h1 className="text-2xl md:text-3xl bg-clip-text text-transparent bg-gradient-to-r from-green-700 to-blue-700 mb-3">
+            Ask me Anything
+          </h1>
 
-  {/* Heading */}
-  <h1 className="text-2xl md:text-3xl bg-clip-text text-transparent bg-gradient-to-r from-green-700 to-blue-700 mb-3">
-    Hello User, Ask me Anything
-  </h1>
+          {/* Loader */}
+          {loader && (
+            <div role="status" className="my-2">
+              <svg
+                aria-hidden="true"
+                className="inline w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-purple-600"
+                viewBox="0 0 100 101"
+              >
+                <path
+                  d="M100 50.5908C100 78.2051..."
+                  fill="currentColor"
+                />
+              </svg>
+            </div>
+          )}
 
-  {/* Loader */}
-  {loader && (
-    <div role="status" className="my-2">
-      <svg
-        aria-hidden="true"
-        className="inline w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-purple-600"
-        viewBox="0 0 100 101"
-      >
-        <path
-          d="M100 50.5908C100 78.2051..."
-          fill="currentColor"
-        />
-      </svg>
-    </div>
-  )}
+          {/* ✅ Scrollable Q/A Section */}
+          <div
+            ref={scrollToAns}
+            className="flex-1 w-full md:w-3/4 overflow-y-auto scrollbar-hide px-2 pb-4"
+          >
+            <ul className="dark:text-zinc-300 text-zinc-800 space-y-2">
+              {result.map((item, idx) => (
+                <QuestionAnswer key={idx} item={item} idx={idx} />
+              ))}
+            </ul>
+          </div>
 
-  {/* ✅ Scrollable Q/A Section only */}
-  <div
-    ref={scrollToAns}
-    className="flex-1 w-full md:w-3/4 overflow-y-auto scrollbar-hide px-2 pb-4"
-  >
-    <ul className="dark:text-zinc-300 text-zinc-800 space-y-2">
-      {result.map((item, idx) => (
-        <QuestionAnswer key={idx} item={item} idx={idx} />
-      ))}
-    </ul>
-  </div>
-
-  {/* ✅ Fixed Input Bar (always visible at bottom) */}
-  <div className="sticky bottom-0 w-full md:w-1/2 dark:bg-zinc-800 bg-white p-1 pr-5 dark:text-white text-zinc-800 rounded-4xl border border-zinc-700 flex h-14 shadow-lg">
-    <input
-      type="text"
-      value={question}
-      onKeyDown={isEnter}
-      onChange={(event) => setQuestion(event.target.value)}
-      className="w-full h-full p-3 outline-none bg-transparent"
-      placeholder="Ask anything..."
-    />
-    <VoiceChat onResult={(transcript) => setQuestion(transcript)} />
-  </div>
-</main>
-
+          {/* ✅ Search Input Bar (same position, same style as original) */}
+          <div className="sticky bottom-0 w-full md:w-1/2 dark:bg-zinc-800 bg-white p-1 pr-5 dark:text-white text-zinc-800 rounded-4xl border border-zinc-700 flex h-14 shadow-lg">
+            <input
+              type="text"
+              value={question}
+              onKeyDown={isEnter}
+              onChange={(event) => setQuestion(event.target.value)}
+              className="w-full h-full p-3 outline-none bg-transparent"
+              placeholder="Ask anything..."
+            />
+            <VoiceChat onResult={(transcript) => setQuestion(transcript)} />
+          </div>
+        </main>
       </div>
     </div>
   );
